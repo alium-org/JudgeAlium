@@ -1,0 +1,5 @@
+"jgalium"
+{
+	"title"		"JudgeAlium"
+	"menusystem"	"1"
+}
