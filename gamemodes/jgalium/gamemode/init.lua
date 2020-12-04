@@ -30,98 +30,12 @@ include( 'spawnmenu/init.lua' )
 --
 DEFINE_BASECLASS( "gamemode_base" )
 
-function GM:PlayerSpray(pl)
-	return pl:IsAdmin() or false
-end
-
-function GM:PlayerShouldTaunt(pl, act)
-	return false
-end
-
-local spawnpoints = {
-	Vector(2044.438354, -3303.602539, 576.031250),
-	Vector(2044.646484, -3246.735107, 576.031250),
-	Vector(2045.101807, -3195.870117, 576.031250)
-}
-
-hook.Add("PlayerSpawn", "JGPlayerSpawn", function(pl)
-	if IsValid(pl) then
-		pl:SetPos(table.Random(spawnpoints))
-		pl:SetRunSpeed(100)
-		pl:SetWalkSpeed(100)
-	end
-end)
-
-hook.Add( "ShouldCollide", "CustomCollisions", function( ent1, ent2 )
-    if ( ent1:IsPlayer() and ent2:IsPlayer() ) then return false end
-end )
-
 util.AddNetworkString("initHUD")
 hook.Add("PlayerInitialSpawn", "JGPlayerInitialSpawn", function(pl)
 	if IsValid(pl) then
-		pl:SetPos(table.Random(spawnpoints))
-		pl:SetRunSpeed(100)
-		pl:SetWalkSpeed(100)
 		net.Start("initHUD")
 		net.Send(pl)
 	end
-end)
-
-hook.Add("CanPlayerSuicide", "JGCanPlayerSuicide", function(pl)
-	return false
-end)
-
-hook.Add("PlayerSwitchFlashlight", "JGPlayerSwitchFlashlight", function(pl)
-	return false
-end)
-
-hook.Add("Think", "OffPlayerCollide", function()
-	for k, v in ipairs(ents.FindByClass("player")) do
-		v:SetCustomCollisionCheck(true)
-		v:CollisionRulesChanged()
-	end
-end)
-
-local msgs = {
-	"Иди обратно в суд",
-	"Эрик ждёт когда ты будешь сидеть у кресла",
-	"Ничего не получится"
-}
-
-util.AddNetworkString("surfacePlaySound")
-hook.Add("Think", "JGPlayerPostThink", function(pl)
-	for k, v in ipairs(ents.FindInBox(Vector(2063.088867, -3720.988281, 768.031250), Vector(1973.026245, -3657.031250, 900.531250))) do
-		if v:IsPlayer() then
-			v:SetPos(table.Random(spawnpoints))
-			v:ChatPrint(msgs[math.random(1,#msgs)])
-			v:ScreenFade(SCREENFADE.IN, Color( 255, 0, 0, 128 ), 0.3, 0)
-			net.Start("surfacePlaySound")
-				net.WriteString("ambient/levels/labs/teleport_weird_voices"..math.random(1,2)..".wav")
-			net.Send(v)
-		end
-	end
-
-	for k, v in ipairs(ents.FindInBox(Vector(1529.391357, -3352.990967, 576.031250), Vector(1427.150146, -3145.031250, 1000.031250))) do
-		if v:IsPlayer() then
-			v:SetPos(table.Random(spawnpoints))
-			v:ChatPrint(msgs[math.random(1,#msgs)])
-			v:ScreenFade(SCREENFADE.IN, Color( 255, 0, 0, 128 ), 0.3, 0)
-			net.Start("surfacePlaySound")
-				net.WriteString("ambient/levels/labs/teleport_weird_voices"..math.random(1,2)..".wav")
-			net.Send(v)
-		end
-	end
-end)
-
-hook.Add("InitPostEntity", "JBInitPostEntity", function()
-	for k, v in ipairs(ents.FindByClass("func_door_rotating")) do
-		v:Fire("close")
-		v:Fire("lock")
-	end
-
-	timer.Simple(1, function()
-		game.ConsoleCommand("sv_alltalk 3\n")
-	end)
 end)
 
 --[[---------------------------------------------------------

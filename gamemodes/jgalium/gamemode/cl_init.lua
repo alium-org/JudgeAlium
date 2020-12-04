@@ -177,7 +177,7 @@ net.Receive("initHUD", function()
 end)
 
 surface.CreateFont("JGCaseFont", {
-	font = "Arial",
+	font = "TargetID",
 	extended = true,
 	size = 20,
 	weight = 500,
@@ -187,11 +187,11 @@ surface.CreateFont("JGCaseFont", {
 })
 
 surface.CreateFont("JGCaseFont_Blur", {
-	font = "Arial",
+	font = "TargetID",
 	extended = true,
 	size = 20,
 	weight = 500,
-	blursize = 4,
+	blursize = 2,
 	scanlines = 0,
 	antialias = true
 })
