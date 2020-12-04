@@ -67,6 +67,14 @@ hook.Add("PlayerInitialSpawn", "JGPlayerInitialSpawn", function(pl)
 	end
 end)
 
+hook.Add("CanPlayerSuicide", "JGCanPlayerSuicide", function(pl)
+	return false
+end)
+
+hook.Add("PlayerSwitchFlashlight", "JGPlayerSwitchFlashlight", function(pl)
+	return false
+end)
+
 hook.Add("Think", "OffPlayerCollide", function()
 	for k, v in ipairs(ents.FindByClass("player")) do
 		v:SetCustomCollisionCheck(true)
