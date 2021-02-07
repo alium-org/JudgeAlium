@@ -1,2 +1,2 @@
-# JudgeAlium
-Приватный репозиторий режима суда для The Alium
+# JudgeAlium, deprecated
+Репозиторий режима суда для The Alium
